@@ -1,0 +1,18 @@
+settings:
+  enable-sign: false
+
+portals:
+  'spawn':
+    name: "&a&lSpawn"
+    location: "world 0 0 0"
+  'home':
+    name: "&c&lHome"
+    location: "world 100 100 100"
+  'shop':
+    name: "&e&lShop"
+    location: "world 50 50 50"
+
+tunnels:
+  - spawn > home
+  - spawn > shop
+  - home > shop
