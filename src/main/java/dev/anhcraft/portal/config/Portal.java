@@ -5,8 +5,10 @@ import dev.anhcraft.config.annotations.PostHandler;
 import dev.anhcraft.config.annotations.Setting;
 import dev.anhcraft.config.annotations.Validation;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -19,6 +21,10 @@ public class Portal {
     @Setting
     @Validation(notNull = true)
     public Location location;
+
+    @Setting
+    @Nullable
+    public Material icon;
 
     private BoundingBox boundingBox;
     private AtomicInteger effectRotation;

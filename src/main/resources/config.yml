@@ -1,6 +1,7 @@
 settings:
   enable-sign: false
   enable-effects: true
+  show-icons: true
   effect-rotation-delta: 15
   effect-fragmented-fans: 8
   effect-density: 5
@@ -17,6 +18,7 @@ portals:
   'shop':
     name: "&e&lShop"
     location: "world 50 50 50"
+    icon: emerald
 
 tunnels:
   - spawn > home

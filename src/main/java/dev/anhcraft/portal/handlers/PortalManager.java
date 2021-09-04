@@ -9,14 +9,13 @@ import dev.anhcraft.portal.config.Tunnel;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PortalManager {
@@ -24,8 +23,10 @@ public class PortalManager {
     private final MutableGraph<String> graph;
     private final Map<String, ArmorStand> signs;
     private final Map<String, Portal> portals;
+    private final PortalPlugin plugin;
 
     public PortalManager(@NotNull PortalPlugin plugin) {
+        this.plugin = plugin;
         this.key = new NamespacedKey(plugin, "HOLOGRAM_SIGN");
         this.graph = GraphBuilder.directed().allowsSelfLoops(false).build();
         this.signs = new HashMap<>();
@@ -72,6 +73,10 @@ public class PortalManager {
     @NotNull
     public ArmorStand setSign(@NotNull String id, @NotNull Portal portal){
         ArmorStand as = portal.location.getWorld().spawn(portal.location, ArmorStand.class, armorStand -> {
+            if(plugin.config.settings.showIcons && portal.icon != null && !portal.icon.isAir()) {
+                Objects.requireNonNull(armorStand.getEquipment()).setHelmet(new ItemStack(portal.icon, 1));
+            }
+            armorStand.addDisabledSlots(EquipmentSlot.values());
             armorStand.setVisible(false);
             armorStand.setInvulnerable(true);
             armorStand.setCanMove(false);

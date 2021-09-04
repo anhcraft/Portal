@@ -17,6 +17,10 @@ public class Settings {
     public boolean particleEffectEnabled = true;
 
     @Setting
+    @Path("show-icons")
+    public boolean showIcons = true;
+
+    @Setting
     @Path("effect-rotation-delta")
     public int effectRotationDelta = 15;
 

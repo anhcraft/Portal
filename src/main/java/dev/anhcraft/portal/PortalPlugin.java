@@ -3,6 +3,7 @@ package dev.anhcraft.portal;
 import co.aikar.commands.PaperCommandManager;
 import dev.anhcraft.config.ConfigDeserializer;
 import dev.anhcraft.config.ConfigSerializer;
+import dev.anhcraft.config.adapters.defaults.EnumAdapter;
 import dev.anhcraft.config.bukkit.BukkitConfigProvider;
 import dev.anhcraft.config.bukkit.adapters.LocationAdapter;
 import dev.anhcraft.config.bukkit.struct.YamlConfigSection;
@@ -30,14 +31,18 @@ public final class PortalPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        EnumAdapter enumAdapter = new EnumAdapter();
+        enumAdapter.preferUppercase(true);
         LocationAdapter locationAdapter = new LocationAdapter();
         locationAdapter.inlineSerialization(true);
         serializer = BukkitConfigProvider.YAML.createSerializer();
         serializer.registerTypeAdapter(Location.class, locationAdapter);
         serializer.registerTypeAdapter(Tunnel.class, new TunnelAdapter());
+        serializer.registerTypeAdapter(Enum.class, enumAdapter);
         deserializer = BukkitConfigProvider.YAML.createDeserializer();
         deserializer.registerTypeAdapter(Location.class, locationAdapter);
         deserializer.registerTypeAdapter(Tunnel.class, new TunnelAdapter());
+        deserializer.registerTypeAdapter(Enum.class, enumAdapter);
         try {
             reload();
         } catch (Exception e) {
