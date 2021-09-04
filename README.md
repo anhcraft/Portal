@@ -6,7 +6,8 @@ Brings multi-dimensional tunnels to Paper server
 - Asynchronous teleportation
 - Particle effects
 - Multiple destinations per portal
-- Portals name-tag (invisible armorstand)
+- Portals name-tag (with icons)
+- Permission requirement per portal
 
 ## Commands
 ```
