@@ -42,6 +42,7 @@ public class EventListener implements Listener {
                         .skip(ThreadLocalRandom.current().nextInt(list.size()))
                         .map(plugin.portalManager::getPortal)
                         .filter(Objects::nonNull)
+                        .filter(it -> it.permission == null || event.getPlayer().hasPermission(it.permission))
                         .findAny()
                         .ifPresent(dest -> trafficManager.teleport(event.getPlayer(), dest));
                 break;

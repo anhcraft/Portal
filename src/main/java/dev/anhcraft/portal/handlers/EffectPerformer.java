@@ -2,7 +2,6 @@ package dev.anhcraft.portal.handlers;
 
 import dev.anhcraft.portal.PortalPlugin;
 import dev.anhcraft.portal.config.Portal;
-import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;

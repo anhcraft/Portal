@@ -15,6 +15,7 @@ portals:
   'home':
     name: "&c&lHome"
     location: "world 100 100 100"
+    permission: "back.to.home"
   'shop':
     name: "&e&lShop"
     location: "world 50 50 50"

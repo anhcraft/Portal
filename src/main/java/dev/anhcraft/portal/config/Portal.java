@@ -26,6 +26,10 @@ public class Portal {
     @Nullable
     public Material icon;
 
+    @Setting
+    @Nullable
+    public String permission;
+
     private BoundingBox boundingBox;
     private AtomicInteger effectRotation;
 
