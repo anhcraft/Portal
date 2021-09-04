@@ -35,7 +35,7 @@ public class EventListener implements Listener {
         for(String portal : plugin.portalManager.getActivePortals()){
             Portal p = plugin.portalManager.getPortal(portal);
             Location d = event.getTo();
-            if(p != null && p.getBoundingBox().contains(d.getX(), d.getY(), d.getZ())) {
+            if(p != null && p.getBoundingBox().contains(d.getX(), d.getY(), d.getZ()) && p.location.getWorld().equals(d.getWorld())) {
                 Set<String> list = plugin.portalManager.getDestinations(portal);
                 if(list.isEmpty()) continue;
                 list.stream()
