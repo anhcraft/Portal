@@ -17,14 +17,15 @@ public class EffectPerformer extends BukkitRunnable {
 
     @Override
     public void run() {
+        if(!plugin.config.settings.particleEffectEnabled) return;
         for(Portal p : plugin.config.portals.values()){
             World w = p.location.getWorld();
             Vector o = p.location.toVector();
             Vector v = new Vector();
-            double rt = Math.toRadians(p.getEffectRotation().getAndAdd(15));
+            double rt = Math.toRadians(p.getEffectRotation().getAndAdd(plugin.config.settings.effectRotationDelta));
             for (int i = 0; i < RADIUS.length; i++) {
                 double r = RADIUS[i];
-                for (double rad = 0; rad <= 2 * Math.PI; rad += Math.PI / 8) {
+                for (double rad = 0; rad <= 2 * Math.PI; rad += Math.PI / plugin.config.settings.effectFragmentedFans) {
                     v.setX(Math.cos(rad));
                     v.setY(0);
                     v.setZ(Math.sin(rad));
@@ -33,8 +34,8 @@ public class EffectPerformer extends BukkitRunnable {
                     v.multiply(r);
                     v.add(o);
                     w.spawnParticle(
-                            i == RADIUS.length - 1 ? Particle.CLOUD : Particle.DRAGON_BREATH,
-                            v.getX(), v.getY(), v.getZ(), 5, 0, 0, 0, 0, null
+                            i == RADIUS.length - 1 ? plugin.config.settings.outerParticleEffect : plugin.config.settings.innerParticleEffect,
+                            v.getX(), v.getY(), v.getZ(), plugin.config.settings.effectDensity, 0, 0, 0, 0, null
                     );
                 }
             }

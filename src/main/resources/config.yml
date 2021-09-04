@@ -1,5 +1,11 @@
 settings:
   enable-sign: false
+  enable-effects: true
+  effect-rotation-delta: 15
+  effect-fragmented-fans: 8
+  effect-density: 5
+  effect-inner-particle: dragon_breath
+  effect-outer-particle: cloud
 
 portals:
   'spawn':
