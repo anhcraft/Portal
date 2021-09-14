@@ -60,7 +60,7 @@ public class TrafficManager {
                                 unmarkTravelling(player);
                                 Bukkit.getPluginManager().callEvent(new PortalPostTeleportEvent(player, portal));
                                 Vector dir = portal.location.getDirection().normalize();
-                                dir.setY(Math.toRadians(60));
+                                dir.setY(Math.toRadians(plugin.config.settings.throwingVelocityAlpha));
                                 player.setVelocity(dir);
                                 new BukkitRunnable() {
                                     @Override

@@ -7,6 +7,7 @@ settings:
   effect-density: 5
   effect-inner-particle: dragon_breath
   effect-outer-particle: cloud
+  throwing-velocity-alpha: 60
 
 portals:
   'spawn':

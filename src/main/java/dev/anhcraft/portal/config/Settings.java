@@ -41,4 +41,8 @@ public class Settings {
     @Path("effect-outer-particle")
     @Validation(notNull = true, silent = true)
     public Particle outerParticleEffect = Particle.CLOUD;
+
+    @Setting
+    @Path("throwing-velocity-alpha")
+    public double throwingVelocityAlpha = 60;
 }
