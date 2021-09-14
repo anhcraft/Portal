@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.UUID;
@@ -42,8 +43,8 @@ public class TrafficManager {
         travelling.remove(player.getUniqueId());
     }
 
-    public void teleport(@NotNull Player player, @NotNull Portal portal){
-        PortalPreTeleportEvent event = new PortalPreTeleportEvent(player, portal);
+    public void teleport(@NotNull Player player, @NotNull Portal destination, @Nullable Portal source){
+        PortalPreTeleportEvent event = new PortalPreTeleportEvent(player, destination, source);
         Bukkit.getPluginManager().callEvent(event);
         if(event.isCancelled()) return;
         processing.put(player.getUniqueId(), (byte) 0);
@@ -52,14 +53,14 @@ public class TrafficManager {
         new BukkitRunnable() {
             @Override
             public void run() {
-                player.teleportAsync(portal.location).whenComplete((done, throwable) -> {
+                player.teleportAsync(destination.location).whenComplete((done, throwable) -> {
                     if (done) {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
                                 unmarkTravelling(player);
-                                Bukkit.getPluginManager().callEvent(new PortalPostTeleportEvent(player, portal));
-                                Vector dir = portal.location.getDirection().normalize();
+                                Bukkit.getPluginManager().callEvent(new PortalPostTeleportEvent(player, destination, source));
+                                Vector dir = destination.location.getDirection().normalize();
                                 dir.setY(Math.toRadians(plugin.config.settings.throwingVelocityAlpha));
                                 player.setVelocity(dir);
                                 new BukkitRunnable() {

@@ -44,7 +44,7 @@ public class EventListener implements Listener {
                         .filter(Objects::nonNull)
                         .filter(it -> it.permission == null || event.getPlayer().hasPermission(it.permission))
                         .findAny()
-                        .ifPresent(dest -> trafficManager.teleport(event.getPlayer(), dest));
+                        .ifPresent(dest -> trafficManager.teleport(event.getPlayer(), dest, p));
                 break;
             }
         }

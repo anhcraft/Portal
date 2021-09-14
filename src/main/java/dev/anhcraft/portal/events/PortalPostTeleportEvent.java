@@ -5,19 +5,27 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class PortalPostTeleportEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
-    private final Portal portal;
+    private final Portal destination;
+    private final Portal source;
 
-    public PortalPostTeleportEvent(@NotNull Player who, @NotNull Portal portal) {
+    public PortalPostTeleportEvent(@NotNull Player who, @NotNull Portal destination, @Nullable Portal source) {
         super(who);
-        this.portal = portal;
+        this.destination = destination;
+        this.source = source;
     }
 
     @NotNull
-    public Portal getPortal() {
-        return portal;
+    public Portal getDestination() {
+        return destination;
+    }
+
+    @Nullable
+    public Portal getSource() {
+        return source;
     }
 
     @NotNull

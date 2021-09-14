@@ -6,20 +6,28 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class PortalPreTeleportEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private final Portal portal;
+    private final Portal destination;
+    private final Portal source;
     private boolean cancelled;
 
-    public PortalPreTeleportEvent(@NotNull Player who, @NotNull Portal portal) {
+    public PortalPreTeleportEvent(@NotNull Player who, @NotNull Portal destination, @Nullable Portal source) {
         super(who);
-        this.portal = portal;
+        this.destination = destination;
+        this.source = source;
     }
 
     @NotNull
-    public Portal getPortal() {
-        return portal;
+    public Portal getDestination() {
+        return destination;
+    }
+
+    @Nullable
+    public Portal getSource() {
+        return source;
     }
 
     @Override
