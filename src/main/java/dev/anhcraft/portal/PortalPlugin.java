@@ -7,6 +7,7 @@ import dev.anhcraft.config.adapters.defaults.EnumAdapter;
 import dev.anhcraft.config.bukkit.BukkitConfigProvider;
 import dev.anhcraft.config.bukkit.adapters.LocationAdapter;
 import dev.anhcraft.config.bukkit.struct.YamlConfigSection;
+import dev.anhcraft.config.middleware.EntryKeyInjector;
 import dev.anhcraft.config.schema.SchemaScanner;
 import dev.anhcraft.portal.config.PluginConfig;
 import dev.anhcraft.portal.config.Portal;
@@ -43,6 +44,7 @@ public final class PortalPlugin extends JavaPlugin {
         deserializer.registerTypeAdapter(Location.class, locationAdapter);
         deserializer.registerTypeAdapter(Tunnel.class, new TunnelAdapter());
         deserializer.registerTypeAdapter(Enum.class, enumAdapter);
+        deserializer.setMiddleware(new EntryKeyInjector(e -> e.getKey().equals("portals") && e.getField().getDeclaringClass().isAssignableFrom(PluginConfig.class) ? "id" : null));
         try {
             reload();
         } catch (Exception e) {
