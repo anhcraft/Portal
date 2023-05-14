@@ -54,14 +54,14 @@ public final class PortalPlugin extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
 
-        new EffectPerformer(this).runTaskTimerAsynchronously(this, 0, 10);
-
         BukkitCommandManager pcm = new BukkitCommandManager(this);
         pcm.enableUnstableAPI("help");
         pcm.registerCommand(new PortalCommand(this));
     }
 
     void reload() throws Exception {
+        getServer().getScheduler().cancelTasks(this);
+
         saveDefaultConfig();
         reloadConfig();
         config = deserializer.transformConfig(
@@ -91,8 +91,13 @@ public final class PortalPlugin extends JavaPlugin {
                 portalManager.setSign(e.getKey(), e.getValue());
             }
         }
+
         for(Tunnel e : config.tunnels){
             portalManager.addTunnel(e);
+        }
+
+        if (config.settings.particleEffectEnabled) {
+            new EffectPerformer(this).runTaskTimerAsynchronously(this, 0, config.settings.effectInterval);
         }
     }
 

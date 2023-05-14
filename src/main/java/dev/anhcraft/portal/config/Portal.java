@@ -26,7 +26,10 @@ public class Portal {
     @Nullable
     public String permission;
 
+    @Exclude
     private BoundingBox boundingBox;
+
+    @Exclude
     private AtomicInteger effectRotation;
 
     @NotNull

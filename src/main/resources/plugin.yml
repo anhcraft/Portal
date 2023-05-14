@@ -1,6 +1,6 @@
 name: Portal
 version: '${project.version}'
 main: dev.anhcraft.portal.PortalPlugin
-api-version: 1.16
+api-version: 1.14
 authors: [ anhcraft ]
 description: Portal

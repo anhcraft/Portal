@@ -5,14 +5,12 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import dev.anhcraft.portal.config.Portal;
 import dev.anhcraft.portal.config.Tunnel;
-import net.kyori.adventure.audience.MessageType;
-import net.kyori.adventure.identity.Identity;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import io.papermc.lib.PaperLib;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandAlias("portal|thongdao|thongdit")
+@CommandAlias("portal")
 public class PortalCommand extends BaseCommand {
     private final PortalPlugin plugin;
 
@@ -31,12 +29,11 @@ public class PortalCommand extends BaseCommand {
     public void reload(CommandSender sender) {
         try {
             plugin.reload();
+            sender.sendMessage(ChatColor.GREEN + "Configuration reloaded.");
         } catch (Exception e) {
             e.printStackTrace();
-            sender.sendMessage(Identity.nil(), Component.text("Failed to reload configuration.").color(NamedTextColor.RED), MessageType.SYSTEM);
-            return;
+            sender.sendMessage(ChatColor.RED + "Failed to reload configuration.");
         }
-        sender.sendMessage(Identity.nil(), Component.text("Configuration reloaded.").color(NamedTextColor.GREEN), MessageType.SYSTEM);
     }
 
     @Subcommand("visit")
@@ -44,10 +41,10 @@ public class PortalCommand extends BaseCommand {
     public void visit(Player player, String portal) {
         Portal p = plugin.portalManager.getPortal(portal);
         if(p == null){
-            player.sendMessage(Identity.nil(), Component.text("Portal not existed.").color(NamedTextColor.RED), MessageType.SYSTEM);
+            player.sendMessage(ChatColor.RED + "Portal not existed.");
             return;
         }
-        player.teleportAsync(p.location);
+        PaperLib.teleportAsync(player, p.location);
     }
 
     @Subcommand("config add-portal")
@@ -61,9 +58,9 @@ public class PortalCommand extends BaseCommand {
             p.resetEffectRotation();
             plugin.config.portals.put(portal, p);
             plugin.saveChanges();
-            player.sendMessage(Identity.nil(), Component.text("Portal added. Do /portal reload after done.").color(NamedTextColor.GREEN), MessageType.SYSTEM);
+            player.sendMessage(ChatColor.GREEN + "Portal added. Do /portal reload after done.");
         } else {
-            player.sendMessage(Identity.nil(), Component.text("Portal already existed.").color(NamedTextColor.RED), MessageType.SYSTEM);
+            player.sendMessage(ChatColor.RED + "Portal already existed.");
         }
     }
 
@@ -73,6 +70,6 @@ public class PortalCommand extends BaseCommand {
         Tunnel t = new Tunnel(from, to);
         plugin.config.tunnels.add(t);
         plugin.saveChanges();
-        player.sendMessage(Identity.nil(), Component.text("Tunnel added. Do /portal reload after done.").color(NamedTextColor.GREEN), MessageType.SYSTEM);
+        player.sendMessage(ChatColor.GREEN + "Tunnel added. Do /portal reload after done.");
     }
 }

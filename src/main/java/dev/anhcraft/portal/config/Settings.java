@@ -5,7 +5,7 @@ import dev.anhcraft.config.annotations.Path;
 import dev.anhcraft.config.annotations.Validation;
 import org.bukkit.Particle;
 
-@Configurable
+@Configurable(keyNamingStyle = Configurable.NamingStyle.TRAIN_CASE)
 public class Settings {
     @Path("enable-sign")
     public boolean signEnabled = false;
@@ -13,17 +13,15 @@ public class Settings {
     @Path("enable-effects")
     public boolean particleEffectEnabled = true;
 
-    @Path("show-icons")
     public boolean showIcons = true;
 
-    @Path("effect-rotation-delta")
+    public int effectInterval = 5;
+
     public int effectRotationDelta = 15;
 
-    @Path("effect-fragmented-fans")
     public int effectFragmentedFans = 8;
 
-    @Path("effect-density")
-    public int effectDensity = 5;
+    public int effectDensity = 3;
 
     @Path("effect-inner-particle")
     @Validation(notNull = true, silent = true)
@@ -33,6 +31,5 @@ public class Settings {
     @Validation(notNull = true, silent = true)
     public Particle outerParticleEffect = Particle.CLOUD;
 
-    @Path("throwing-velocity-alpha")
     public double throwingVelocityAlpha = 60;
 }

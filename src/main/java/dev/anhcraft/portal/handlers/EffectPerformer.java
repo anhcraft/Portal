@@ -16,7 +16,6 @@ public class EffectPerformer extends BukkitRunnable {
 
     @Override
     public void run() {
-        if(!plugin.config.settings.particleEffectEnabled) return;
         for(Portal p : plugin.config.portals.values()){
             World w = p.location.getWorld();
             Vector o = p.location.toVector();
