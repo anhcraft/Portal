@@ -1,5 +1,5 @@
 # Portal
-Brings multi-dimensional tunnels to Paper server
+Brings multi-dimensional tunnels to server
 
 ## Features
 - Pretty lightweight
