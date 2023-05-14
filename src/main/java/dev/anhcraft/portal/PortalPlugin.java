@@ -1,10 +1,11 @@
 package dev.anhcraft.portal;
 
-import co.aikar.commands.PaperCommandManager;
+import co.aikar.commands.BukkitCommandManager;
 import dev.anhcraft.config.ConfigDeserializer;
 import dev.anhcraft.config.ConfigSerializer;
-import dev.anhcraft.config.adapters.defaults.EnumAdapter;
+import dev.anhcraft.config.bukkit.BukkitConfigDeserializer;
 import dev.anhcraft.config.bukkit.BukkitConfigProvider;
+import dev.anhcraft.config.bukkit.BukkitConfigSerializer;
 import dev.anhcraft.config.bukkit.adapters.LocationAdapter;
 import dev.anhcraft.config.bukkit.struct.YamlConfigSection;
 import dev.anhcraft.config.middleware.EntryKeyInjector;
@@ -16,6 +17,7 @@ import dev.anhcraft.portal.config.TunnelAdapter;
 import dev.anhcraft.portal.handlers.EffectPerformer;
 import dev.anhcraft.portal.handlers.EventListener;
 import dev.anhcraft.portal.handlers.PortalManager;
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -32,19 +34,18 @@ public final class PortalPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        EnumAdapter enumAdapter = new EnumAdapter();
-        enumAdapter.preferUppercase(true);
+        PaperLib.suggestPaper(this);
+
         LocationAdapter locationAdapter = new LocationAdapter();
         locationAdapter.inlineSerialization(true);
-        serializer = BukkitConfigProvider.YAML.createSerializer();
+        serializer = new BukkitConfigSerializer(BukkitConfigProvider.YAML);
         serializer.registerTypeAdapter(Location.class, locationAdapter);
         serializer.registerTypeAdapter(Tunnel.class, new TunnelAdapter());
-        serializer.registerTypeAdapter(Enum.class, enumAdapter);
-        deserializer = BukkitConfigProvider.YAML.createDeserializer();
+        deserializer = new BukkitConfigDeserializer(BukkitConfigProvider.YAML);
         deserializer.registerTypeAdapter(Location.class, locationAdapter);
         deserializer.registerTypeAdapter(Tunnel.class, new TunnelAdapter());
-        deserializer.registerTypeAdapter(Enum.class, enumAdapter);
-        deserializer.setMiddleware(new EntryKeyInjector(e -> e.getKey().equals("portals") && e.getField().getDeclaringClass().isAssignableFrom(PluginConfig.class) ? "id" : null));
+        deserializer.addMiddleware(new EntryKeyInjector(e -> e.getKey().equals("portals") && e.getField().getDeclaringClass().isAssignableFrom(PluginConfig.class) ? "id" : null));
+
         try {
             reload();
         } catch (Exception e) {
@@ -55,7 +56,7 @@ public final class PortalPlugin extends JavaPlugin {
 
         new EffectPerformer(this).runTaskTimerAsynchronously(this, 0, 10);
 
-        PaperCommandManager pcm = new PaperCommandManager(this);
+        BukkitCommandManager pcm = new BukkitCommandManager(this);
         pcm.enableUnstableAPI("help");
         pcm.registerCommand(new PortalCommand(this));
     }

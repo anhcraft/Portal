@@ -9,7 +9,6 @@ import dev.anhcraft.portal.config.Tunnel;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -76,11 +75,8 @@ public class PortalManager {
             if(plugin.config.settings.showIcons && portal.icon != null && !portal.icon.isAir()) {
                 Objects.requireNonNull(armorStand.getEquipment()).setHelmet(new ItemStack(portal.icon, 1));
             }
-            armorStand.addDisabledSlots(EquipmentSlot.values());
             armorStand.setVisible(false);
             armorStand.setInvulnerable(true);
-            armorStand.setCanMove(false);
-            armorStand.setCanTick(false);
             armorStand.setMarker(false);
             armorStand.setCustomName(ChatColor.translateAlternateColorCodes('&', portal.name));
             armorStand.setCustomNameVisible(true);

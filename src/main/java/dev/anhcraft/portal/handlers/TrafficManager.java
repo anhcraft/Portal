@@ -4,6 +4,7 @@ import dev.anhcraft.portal.PortalPlugin;
 import dev.anhcraft.portal.config.Portal;
 import dev.anhcraft.portal.events.PortalPostTeleportEvent;
 import dev.anhcraft.portal.events.PortalPreTeleportEvent;
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -53,7 +54,7 @@ public class TrafficManager {
         new BukkitRunnable() {
             @Override
             public void run() {
-                player.teleportAsync(destination.location).whenComplete((done, throwable) -> {
+                PaperLib.teleportAsync(player, destination.location).whenComplete((done, throwable) -> {
                     if (done) {
                         new BukkitRunnable() {
                             @Override

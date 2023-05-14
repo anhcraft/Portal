@@ -6,7 +6,7 @@
 
     <groupId>dev.anhcraft</groupId>
     <artifactId>Portal</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <packaging>jar</packaging>
 
     <name>Portal</name>
@@ -53,6 +53,10 @@
                             <pattern>co.aikar.commands</pattern>
                             <shadedPattern>dev.anhcraft.portal.ext.acf</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>io.papermc.lib</pattern>
+                            <shadedPattern>dev.anhcraft.portal.ext.paperlib</shadedPattern> <!-- Replace this -->
+                        </relocation>
                     </relocations>
                 </configuration>
             </plugin>
@@ -67,8 +71,8 @@
 
     <repositories>
         <repository>
-            <id>papermc-repo</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>sonatype</id>
@@ -82,25 +86,35 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>papermc</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.anhcraft.config</groupId>
             <artifactId>config.bukkit</artifactId>
-            <version>v1.1.0</version>
+            <version>-3187565e88-1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>co.aikar</groupId>
-            <artifactId>acf-paper</artifactId>
+            <artifactId>acf-bukkit</artifactId>
             <version>0.5.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.7</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

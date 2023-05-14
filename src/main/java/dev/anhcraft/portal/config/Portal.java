@@ -11,23 +11,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Configurable
 public class Portal {
-    @Setting
     @Virtual
     private String id;
 
-    @Setting
     @Validation(notNull = true)
     public String name;
 
-    @Setting
     @Validation(notNull = true)
     public Location location;
 
-    @Setting
     @Nullable
     public Material icon;
 
-    @Setting
     @Nullable
     public String permission;
 
