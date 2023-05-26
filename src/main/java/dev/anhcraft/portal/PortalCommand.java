@@ -47,6 +47,24 @@ public class PortalCommand extends BaseCommand {
         PaperLib.teleportAsync(player, p.location);
     }
 
+    @Subcommand("movehere")
+    @CommandPermission("portal.move-here")
+    public void movePortal(Player player, String portal) {
+        Portal p = plugin.portalManager.getPortal(portal);
+        if(p == null){
+            player.sendMessage(ChatColor.RED + "Portal not existed.");
+            return;
+        }
+        p.location = player.getLocation().add(0, 0.5, 0);
+        plugin.saveChanges();
+        try {
+            plugin.reload();
+            player.sendMessage(ChatColor.GREEN + "Portal moved.");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Subcommand("config add-portal")
     @CommandPermission("portal.config.add-portal")
     public void addPortal(Player player, String portal, @Optional String name) {
@@ -58,7 +76,12 @@ public class PortalCommand extends BaseCommand {
             p.resetEffectRotation();
             plugin.config.portals.put(portal, p);
             plugin.saveChanges();
-            player.sendMessage(ChatColor.GREEN + "Portal added. Do /portal reload after done.");
+            try {
+                plugin.reload();
+                player.sendMessage(ChatColor.GREEN + "Portal added. Do /portal reload after done.");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         } else {
             player.sendMessage(ChatColor.RED + "Portal already existed.");
         }
@@ -70,6 +93,11 @@ public class PortalCommand extends BaseCommand {
         Tunnel t = new Tunnel(from, to);
         plugin.config.tunnels.add(t);
         plugin.saveChanges();
-        player.sendMessage(ChatColor.GREEN + "Tunnel added. Do /portal reload after done.");
+        try {
+            plugin.reload();
+            player.sendMessage(ChatColor.GREEN + "Tunnel added. Do /portal reload after done.");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
