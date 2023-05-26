@@ -50,31 +50,26 @@ public class TrafficManager {
         if(event.isCancelled()) return;
         processing.put(player.getUniqueId(), (byte) 0);
         travelling.put(player.getUniqueId(), (byte) 0);
-        player.playSound(player.getLocation(), Sound.BLOCK_PORTAL_TRIGGER, 1f, 1f);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                PaperLib.teleportAsync(player, destination.location).whenComplete((done, throwable) -> {
-                    if (done) {
+        player.playSound(player.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1f, 1f);
+        PaperLib.teleportAsync(player, destination.location).whenComplete((done, throwable) -> {
+            if (done) {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        unmarkTravelling(player);
+                        Bukkit.getPluginManager().callEvent(new PortalPostTeleportEvent(player, destination, source));
+                        Vector dir = destination.location.getDirection().normalize();
+                        dir.setY(Math.toRadians(plugin.config.settings.throwingVelocityAlpha));
+                        player.setVelocity(dir);
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                unmarkTravelling(player);
-                                Bukkit.getPluginManager().callEvent(new PortalPostTeleportEvent(player, destination, source));
-                                Vector dir = destination.location.getDirection().normalize();
-                                dir.setY(Math.toRadians(plugin.config.settings.throwingVelocityAlpha));
-                                player.setVelocity(dir);
-                                new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        unmarkProcessing(player);
-                                    }
-                                }.runTaskLater(plugin, 100);
+                                unmarkProcessing(player);
                             }
-                        }.runTask(plugin);
+                        }.runTaskLater(plugin, 100);
                     }
-                });
+                }.runTask(plugin);
             }
-        }.runTaskLater(plugin, 40);
+        });
     }
 }
