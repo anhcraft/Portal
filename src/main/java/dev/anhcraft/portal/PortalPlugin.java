@@ -22,6 +22,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Map;
 import java.util.Objects;
@@ -46,11 +47,16 @@ public final class PortalPlugin extends JavaPlugin {
         deserializer.registerTypeAdapter(Tunnel.class, new TunnelAdapter());
         deserializer.addMiddleware(new EntryKeyInjector(e -> e.getKey().equals("portals") && e.getField().getDeclaringClass().isAssignableFrom(PluginConfig.class) ? "id" : null));
 
-        try {
-            reload();
-        } catch (Exception e) {
-            getLogger().severe("Failed to load configuration");
-        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    reload();
+                } catch (Exception e) {
+                    getLogger().severe("Failed to load configuration");
+                }
+            }
+        }.runTaskLater(this, 100);
 
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
 
@@ -69,13 +75,11 @@ public final class PortalPlugin extends JavaPlugin {
                 new YamlConfigSection(getConfig())
         );
 
-        if(portalManager != null) {
-            for(String s : portalManager.getSigns()){
-                portalManager.removeSign(s);
-            }
-        }
-
         portalManager = new PortalManager(this);
+
+        for(String s : portalManager.getSigns()){
+            portalManager.removeSign(s);
+        }
 
         Bukkit.getServer().getWorlds().stream()
                 .flatMap(w -> w.getEntitiesByClass(ArmorStand.class).stream())
