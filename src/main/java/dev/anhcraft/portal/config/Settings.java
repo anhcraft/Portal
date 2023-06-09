@@ -31,7 +31,14 @@ public class Settings {
     @Validation(notNull = true, silent = true)
     public Particle outerParticleEffect = Particle.CLOUD;
 
-    public double throwingVelocityAlpha = 60;
-
     public long teleportCooldown = 100;
+
+    @Path("throw-after-teleport.enabled")
+    public boolean throwAfterTeleportEnabled = true;
+
+    @Path("throw-after-teleport.angle")
+    public double throwAfterTeleportAngle = 60;
+
+    @Path("throw-after-teleport.power")
+    public double throwAfterTeleportPower = 1;
 }

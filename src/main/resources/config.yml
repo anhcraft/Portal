@@ -2,7 +2,6 @@ settings:
   enable-sign: false
   enable-effects: true
   show-icons: true
-  throwing-velocity-alpha: 60
   effect-rotation-delta: 15
   effect-fragmented-fans: 8
   effect-density: 3
@@ -10,6 +9,10 @@ settings:
   effect-outer-particle: cloud
   effect-interval: 5
   teleport-cooldown: 100
+  throw-after-teleport:
+    enabled: true
+    angle: 60
+    power: 1
 
 portals:
   'spawn':

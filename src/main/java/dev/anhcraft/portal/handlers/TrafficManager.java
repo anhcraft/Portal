@@ -58,9 +58,12 @@ public class TrafficManager {
                     public void run() {
                         unmarkTravelling(player);
                         Bukkit.getPluginManager().callEvent(new PortalPostTeleportEvent(player, destination, source));
-                        Vector dir = destination.location.getDirection().normalize();
-                        dir.setY(Math.toRadians(plugin.config.settings.throwingVelocityAlpha));
-                        player.setVelocity(dir);
+                        if (plugin.config.settings.throwAfterTeleportEnabled) {
+                            Vector dir = destination.location.getDirection().normalize();
+                            dir.multiply(plugin.config.settings.throwAfterTeleportPower);
+                            dir.setY(Math.toRadians(plugin.config.settings.throwAfterTeleportAngle));
+                            player.setVelocity(dir);
+                        }
                         new BukkitRunnable() {
                             @Override
                             public void run() {
