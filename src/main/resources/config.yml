@@ -22,6 +22,7 @@ portals:
     name: "&e&lShop"
     location: "world 50 50 50"
     icon: emerald
+    disabled: true
 
 tunnels:
   - spawn > home

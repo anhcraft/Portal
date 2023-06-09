@@ -26,6 +26,8 @@ public class Portal {
     @Nullable
     public String permission;
 
+    public boolean disabled;
+
     @Exclude
     private BoundingBox boundingBox;
 

@@ -91,7 +91,7 @@ public final class PortalPlugin extends JavaPlugin {
 
         for(Map.Entry<String, Portal> e : config.portals.entrySet()){
             portalManager.registerPortal(e.getKey(), e.getValue());
-            if(config.settings.signEnabled) {
+            if(config.settings.signEnabled && !e.getValue().disabled) {
                 portalManager.setSign(e.getKey(), e.getValue());
             }
         }
