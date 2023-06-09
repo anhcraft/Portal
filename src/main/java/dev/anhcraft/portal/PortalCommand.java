@@ -155,4 +155,18 @@ public class PortalCommand extends BaseCommand {
             throw new RuntimeException(e);
         }
     }
+
+    @Subcommand("disconnect")
+    @CommandPermission("portal.disconnect")
+    public void disconnect(CommandSender sender, String from, String to) {
+        Tunnel t = new Tunnel(from, to);
+        plugin.config.tunnels.remove(t);
+        plugin.saveChanges();
+        try {
+            plugin.reload();
+            sender.sendMessage(ChatColor.GREEN + "Tunnel removed.");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
