@@ -32,4 +32,6 @@ public class Settings {
     public Particle outerParticleEffect = Particle.CLOUD;
 
     public double throwingVelocityAlpha = 60;
+
+    public long teleportCooldown = 100;
 }

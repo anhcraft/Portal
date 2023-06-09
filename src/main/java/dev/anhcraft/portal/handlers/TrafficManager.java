@@ -66,7 +66,7 @@ public class TrafficManager {
                             public void run() {
                                 unmarkProcessing(player);
                             }
-                        }.runTaskLater(plugin, 100);
+                        }.runTaskLater(plugin, plugin.config.settings.teleportCooldown);
                     }
                 }.runTask(plugin);
             }

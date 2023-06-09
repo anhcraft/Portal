@@ -9,6 +9,7 @@ settings:
   effect-inner-particle: dragon_breath
   effect-outer-particle: cloud
   effect-interval: 5
+  teleport-cooldown: 100
 
 portals:
   'spawn':
