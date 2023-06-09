@@ -65,8 +65,8 @@ public class PortalCommand extends BaseCommand {
         }
     }
 
-    @Subcommand("config add-portal")
-    @CommandPermission("portal.config.add-portal")
+    @Subcommand("add-portal")
+    @CommandPermission("portal.add-portal")
     public void addPortal(Player player, String portal, @Optional String name) {
         Portal p = new Portal();
         p.name = name == null ? portal : name;
@@ -87,8 +87,8 @@ public class PortalCommand extends BaseCommand {
         }
     }
 
-    @Subcommand("config delete-portal")
-    @CommandPermission("portal.config.delete-portal")
+    @Subcommand("delete-portal")
+    @CommandPermission("portal.delete-portal")
     public void deletePortal(Player player, String portal) {
         plugin.config.portals.remove(portal);
         plugin.saveChanges();
@@ -100,8 +100,8 @@ public class PortalCommand extends BaseCommand {
         }
     }
 
-    @Subcommand("config connect")
-    @CommandPermission("portal.config.connect")
+    @Subcommand("connect")
+    @CommandPermission("portal.connect")
     public void connect(Player player, String from, String to) {
         Tunnel t = new Tunnel(from, to);
         plugin.config.tunnels.add(t);
