@@ -78,12 +78,25 @@ public class PortalCommand extends BaseCommand {
             plugin.saveChanges();
             try {
                 plugin.reload();
-                player.sendMessage(ChatColor.GREEN + "Portal added. Do /portal reload after done.");
+                player.sendMessage(ChatColor.GREEN + "Portal added.");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         } else {
             player.sendMessage(ChatColor.RED + "Portal already existed.");
+        }
+    }
+
+    @Subcommand("config delete-portal")
+    @CommandPermission("portal.config.delete-portal")
+    public void deletePortal(Player player, String portal) {
+        plugin.config.portals.remove(portal);
+        plugin.saveChanges();
+        try {
+            plugin.reload();
+            player.sendMessage(ChatColor.GREEN + "Portal removed.");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -95,7 +108,7 @@ public class PortalCommand extends BaseCommand {
         plugin.saveChanges();
         try {
             plugin.reload();
-            player.sendMessage(ChatColor.GREEN + "Tunnel added. Do /portal reload after done.");
+            player.sendMessage(ChatColor.GREEN + "Tunnel added.");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
