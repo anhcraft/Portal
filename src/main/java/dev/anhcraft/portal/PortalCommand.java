@@ -71,6 +71,42 @@ public class PortalCommand extends BaseCommand {
         }
     }
 
+    @Subcommand("enable")
+    @CommandPermission("portal.enable")
+    public void enable(CommandSender sender, String portal) {
+        Portal p = plugin.portalManager.getPortal(portal);
+        if(p == null){
+            sender.sendMessage(ChatColor.RED + "Portal not existed.");
+            return;
+        }
+        p.disabled = false;
+        plugin.saveChanges();
+        try {
+            plugin.reload();
+            sender.sendMessage(ChatColor.GREEN + "Portal enabled.");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Subcommand("disable")
+    @CommandPermission("portal.disable")
+    public void disable(CommandSender sender, String portal) {
+        Portal p = plugin.portalManager.getPortal(portal);
+        if(p == null){
+            sender.sendMessage(ChatColor.RED + "Portal not existed.");
+            return;
+        }
+        p.disabled = true;
+        plugin.saveChanges();
+        try {
+            plugin.reload();
+            sender.sendMessage(ChatColor.GREEN + "Portal disabled.");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Subcommand("add-portal")
     @CommandPermission("portal.add-portal")
     public void addPortal(Player player, String portal, @Optional String name) {
