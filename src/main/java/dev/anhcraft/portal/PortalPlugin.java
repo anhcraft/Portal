@@ -20,6 +20,7 @@ import dev.anhcraft.portal.handlers.PortalManager;
 import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -90,9 +91,11 @@ public final class PortalPlugin extends JavaPlugin {
                 });
 
         for(Map.Entry<String, Portal> e : config.portals.entrySet()){
-            portalManager.registerPortal(e.getKey(), e.getValue());
-            if(config.settings.signEnabled && !e.getValue().disabled) {
-                portalManager.setSign(e.getKey(), e.getValue());
+            Portal portal = e.getValue();
+            portalManager.registerPortal(e.getKey(), portal);
+            if(config.settings.signEnabled && !portal.disabled) {
+                Material m = config.settings.showIcons && portal.icon != null ? portal.icon : Material.AIR;
+                portalManager.setSign(e.getKey(), e.getValue(), m, portal.name);
             }
         }
 

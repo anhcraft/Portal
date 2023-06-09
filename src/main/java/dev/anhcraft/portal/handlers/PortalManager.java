@@ -7,6 +7,7 @@ import dev.anhcraft.portal.PortalPlugin;
 import dev.anhcraft.portal.config.Portal;
 import dev.anhcraft.portal.config.Tunnel;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
@@ -70,16 +71,17 @@ public class PortalManager {
     }
 
     @NotNull
-    public ArmorStand setSign(@NotNull String id, @NotNull Portal portal){
+    public ArmorStand setSign(@NotNull String id, @NotNull Portal portal, @NotNull Material icon, @Nullable String name){
         ArmorStand as = portal.location.getWorld().spawn(portal.location, ArmorStand.class, armorStand -> {
-            if(plugin.config.settings.showIcons && portal.icon != null && !portal.icon.isAir()) {
-                Objects.requireNonNull(armorStand.getEquipment()).setHelmet(new ItemStack(portal.icon, 1));
-            }
+            if (!icon.isAir())
+                Objects.requireNonNull(armorStand.getEquipment()).setHelmet(new ItemStack(icon, 1));
             armorStand.setVisible(false);
             armorStand.setInvulnerable(true);
             armorStand.setMarker(false);
-            armorStand.setCustomName(ChatColor.translateAlternateColorCodes('&', portal.name));
-            armorStand.setCustomNameVisible(true);
+            if (name != null && !name.isEmpty()) {
+                armorStand.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
+                armorStand.setCustomNameVisible(true);
+            }
             armorStand.getPersistentDataContainer().set(key, PersistentDataType.STRING, id);
         });
         ArmorStand old = signs.put(id, as);
