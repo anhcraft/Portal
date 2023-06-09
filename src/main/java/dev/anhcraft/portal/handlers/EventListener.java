@@ -26,6 +26,7 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void move(PlayerMoveEvent event) {
+        if (plugin.portalManager == null) return;
         if(trafficManager.isTravelling(event.getPlayer())) {
             event.setCancelled(true);
             return;
