@@ -29,7 +29,7 @@ public class PortalCommand extends BaseCommand {
     public void reload(CommandSender sender) {
         try {
             plugin.reload();
-            sender.sendMessage(ChatColor.GREEN + "Configuration reloaded.");
+            sender.sendMessage(ChatColor.YELLOW + "Configuration reloaded.");
         } catch (Exception e) {
             e.printStackTrace();
             sender.sendMessage(ChatColor.RED + "Failed to reload configuration.");
@@ -39,11 +39,12 @@ public class PortalCommand extends BaseCommand {
     @Subcommand("list")
     @CommandPermission("portal.list")
     public void list(CommandSender sender) {
-        sender.sendMessage(ChatColor.GREEN + "Portals: " + ChatColor.WHITE + String.join(", ", plugin.portalManager.getRegisteredPortals()));
+        sender.sendMessage(ChatColor.AQUA + "Portals: " + ChatColor.WHITE + String.join(", ", plugin.portalManager.getRegisteredPortals()));
     }
 
     @Subcommand("visit")
     @CommandPermission("portal.visit")
+    @CommandCompletion("@portal")
     public void visit(Player player, String portal) {
         Portal p = plugin.portalManager.getPortal(portal);
         if(p == null){
@@ -55,6 +56,7 @@ public class PortalCommand extends BaseCommand {
 
     @Subcommand("movehere")
     @CommandPermission("portal.move-here")
+    @CommandCompletion("@portal")
     public void movePortal(Player player, String portal) {
         Portal p = plugin.portalManager.getPortal(portal);
         if(p == null){
@@ -65,7 +67,7 @@ public class PortalCommand extends BaseCommand {
         plugin.saveChanges();
         try {
             plugin.reload();
-            player.sendMessage(ChatColor.GREEN + "Portal moved.");
+            player.sendMessage(ChatColor.GREEN + "Portal moved: " + portal);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -73,6 +75,7 @@ public class PortalCommand extends BaseCommand {
 
     @Subcommand("enable")
     @CommandPermission("portal.enable")
+    @CommandCompletion("@portal")
     public void enable(CommandSender sender, String portal) {
         Portal p = plugin.portalManager.getPortal(portal);
         if(p == null){
@@ -83,7 +86,7 @@ public class PortalCommand extends BaseCommand {
         plugin.saveChanges();
         try {
             plugin.reload();
-            sender.sendMessage(ChatColor.GREEN + "Portal enabled.");
+            sender.sendMessage(ChatColor.GREEN + "Portal enabled: " + portal);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -91,6 +94,7 @@ public class PortalCommand extends BaseCommand {
 
     @Subcommand("disable")
     @CommandPermission("portal.disable")
+    @CommandCompletion("@portal")
     public void disable(CommandSender sender, String portal) {
         Portal p = plugin.portalManager.getPortal(portal);
         if(p == null){
@@ -101,15 +105,16 @@ public class PortalCommand extends BaseCommand {
         plugin.saveChanges();
         try {
             plugin.reload();
-            sender.sendMessage(ChatColor.GREEN + "Portal disabled.");
+            sender.sendMessage(ChatColor.GREEN + "Portal disabled: " + portal);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Subcommand("add-portal")
-    @CommandPermission("portal.add-portal")
-    public void addPortal(Player player, String portal, @Optional String name) {
+    @Subcommand("create")
+    @CommandPermission("portal.create")
+    @CommandCompletion("@portal")
+    public void create(Player player, String portal, @Optional String name) {
         Portal p = new Portal();
         p.name = name == null ? portal : name;
         p.location = player.getLocation().add(0, 0.5, 0);
@@ -120,23 +125,24 @@ public class PortalCommand extends BaseCommand {
             plugin.saveChanges();
             try {
                 plugin.reload();
-                player.sendMessage(ChatColor.GREEN + "Portal added.");
+                player.sendMessage(ChatColor.GREEN + "Portal created: " + portal);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         } else {
-            player.sendMessage(ChatColor.RED + "Portal already existed.");
+            player.sendMessage(ChatColor.RED + "Portal already existed: " + portal);
         }
     }
 
-    @Subcommand("delete-portal")
-    @CommandPermission("portal.delete-portal")
-    public void deletePortal(CommandSender sender, String portal) {
+    @Subcommand("delete")
+    @CommandPermission("portal.delete")
+    @CommandCompletion("@portal")
+    public void delete(CommandSender sender, String portal) {
         plugin.config.portals.remove(portal);
         plugin.saveChanges();
         try {
             plugin.reload();
-            sender.sendMessage(ChatColor.GREEN + "Portal removed.");
+            sender.sendMessage(ChatColor.GREEN + "Portal deleted: " + portal);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -144,13 +150,14 @@ public class PortalCommand extends BaseCommand {
 
     @Subcommand("connect")
     @CommandPermission("portal.connect")
+    @CommandCompletion("@portal @portal")
     public void connect(CommandSender sender, String from, String to) {
         Tunnel t = new Tunnel(from, to);
         plugin.config.tunnels.add(t);
         plugin.saveChanges();
         try {
             plugin.reload();
-            sender.sendMessage(ChatColor.GREEN + "Tunnel established.");
+            sender.sendMessage(ChatColor.GREEN + String.format("Tunnel established: %s -> %s", from, to));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -158,13 +165,14 @@ public class PortalCommand extends BaseCommand {
 
     @Subcommand("disconnect")
     @CommandPermission("portal.disconnect")
+    @CommandCompletion("@portal @portal")
     public void disconnect(CommandSender sender, String from, String to) {
         Tunnel t = new Tunnel(from, to);
         plugin.config.tunnels.remove(t);
         plugin.saveChanges();
         try {
             plugin.reload();
-            sender.sendMessage(ChatColor.GREEN + "Tunnel removed.");
+            sender.sendMessage(ChatColor.GREEN + String.format("Tunnel removed: %s -> %s", from, to));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

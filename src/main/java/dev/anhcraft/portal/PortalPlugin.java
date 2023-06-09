@@ -1,6 +1,8 @@
 package dev.anhcraft.portal;
 
+import co.aikar.commands.BukkitCommandCompletionContext;
 import co.aikar.commands.BukkitCommandManager;
+import co.aikar.commands.CommandCompletions;
 import dev.anhcraft.config.ConfigDeserializer;
 import dev.anhcraft.config.ConfigSerializer;
 import dev.anhcraft.config.bukkit.BukkitConfigDeserializer;
@@ -64,6 +66,8 @@ public final class PortalPlugin extends JavaPlugin {
         BukkitCommandManager pcm = new BukkitCommandManager(this);
         pcm.enableUnstableAPI("help");
         pcm.registerCommand(new PortalCommand(this));
+        CommandCompletions<BukkitCommandCompletionContext> cc = pcm.getCommandCompletions();
+        cc.registerAsyncCompletion("portal", context -> portalManager.getRegisteredPortals());
     }
 
     void reload() throws Exception {
