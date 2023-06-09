@@ -36,6 +36,12 @@ public class PortalCommand extends BaseCommand {
         }
     }
 
+    @Subcommand("list")
+    @CommandPermission("portal.list")
+    public void list(CommandSender sender) {
+        sender.sendMessage(ChatColor.GREEN + "Portals: " + ChatColor.WHITE + String.join(", ", plugin.portalManager.getRegisteredPortals()));
+    }
+
     @Subcommand("visit")
     @CommandPermission("portal.visit")
     public void visit(Player player, String portal) {
@@ -89,12 +95,12 @@ public class PortalCommand extends BaseCommand {
 
     @Subcommand("delete-portal")
     @CommandPermission("portal.delete-portal")
-    public void deletePortal(Player player, String portal) {
+    public void deletePortal(CommandSender sender, String portal) {
         plugin.config.portals.remove(portal);
         plugin.saveChanges();
         try {
             plugin.reload();
-            player.sendMessage(ChatColor.GREEN + "Portal removed.");
+            sender.sendMessage(ChatColor.GREEN + "Portal removed.");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -102,13 +108,13 @@ public class PortalCommand extends BaseCommand {
 
     @Subcommand("connect")
     @CommandPermission("portal.connect")
-    public void connect(Player player, String from, String to) {
+    public void connect(CommandSender sender, String from, String to) {
         Tunnel t = new Tunnel(from, to);
         plugin.config.tunnels.add(t);
         plugin.saveChanges();
         try {
             plugin.reload();
-            player.sendMessage(ChatColor.GREEN + "Tunnel added.");
+            sender.sendMessage(ChatColor.GREEN + "Tunnel established.");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
