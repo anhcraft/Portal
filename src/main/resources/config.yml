@@ -27,6 +27,13 @@ portals:
     location: "world 50 50 50"
     icon: emerald
     disabled: true
+  'dungeon-entry':
+    name: "&e&l>Dungeon<"
+    location: "world 30 20 10"
+    hide-effects: true
+  'dungeon-exit':
+    name: "&e&lDungeon"
+    location: "dungeon 100 200 300"
 
 tunnels:
   - spawn > home

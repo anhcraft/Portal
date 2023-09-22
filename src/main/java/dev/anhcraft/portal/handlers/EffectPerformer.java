@@ -17,7 +17,7 @@ public class EffectPerformer extends BukkitRunnable {
     @Override
     public void run() {
         for(Portal p : plugin.config.portals.values()){
-            if (p.disabled) continue;
+            if (p.disabled || p.hideEffects) continue;
             World w = p.location.getWorld();
             Vector o = p.location.toVector();
             Vector v = new Vector();

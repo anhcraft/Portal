@@ -28,6 +28,8 @@ public class Portal {
 
     public boolean disabled;
 
+    public boolean hideEffects;
+
     @Exclude
     private BoundingBox boundingBox;
 
