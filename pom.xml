@@ -6,14 +6,14 @@
 
     <groupId>dev.anhcraft</groupId>
     <artifactId>Portal</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <packaging>jar</packaging>
 
     <name>Portal</name>
 
     <description>Portal</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -55,7 +55,7 @@
                         </relocation>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>dev.anhcraft.portal.ext.paperlib</shadedPattern> <!-- Replace this -->
+                            <shadedPattern>dev.anhcraft.portal.ext.paperlib</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -102,7 +102,7 @@
         <dependency>
             <groupId>com.github.anhcraft.config</groupId>
             <artifactId>config.bukkit</artifactId>
-            <version>-3187565e88-1</version>
+            <version>v1.1.8</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
